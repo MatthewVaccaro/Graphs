@@ -24,14 +24,12 @@ class Graph:
     def bft(self, starting_vertex):
         q = Queue()
         q.enqueue(starting_vertex)
-        #mark visited nodes
         visited = set()
-        #until queue is empty
         while q.size() > 0:
-            vert = q.dequeue() # deQ first node
+            vert = q.dequeue()
             if vert not in visited:
                 print(vert)
-                visited.add(vert)  # mark as visited
+                visited.add(vert)
                 for nextVert in self.get_neighbors(vert):
                     q.enqueue(nextVert)
 
@@ -63,14 +61,10 @@ class Graph:
        
         q.enqueue([starting_vertex])
         while q.size() > 0:
-           
             path = q.dequeue()
-           
             lastVert = path[-1]
-       
             if lastVert == destination_vertex:
                 return path
-            
             for adjacent in self.get_neighbors(lastVert):
                 newPath = list(path)
                 newPath.append(adjacent)
@@ -80,9 +74,7 @@ class Graph:
         path = []
         s = Stack()
         s.push(starting_vertex)
-
         visited = set()
-
         while s.size() > 0:
             vert = s.pop()
             if vert not in visited:
@@ -90,7 +82,6 @@ class Graph:
                 path.append(vert)
                 if vert == destination_vertex:
                     return path
-
                 for nextVert in self.get_neighbors(vert):
                     s.push(nextVert)
         
