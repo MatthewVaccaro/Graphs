@@ -1,3 +1,5 @@
+import random
+
 class User:
     def __init__(self, name):
         self.name = name
@@ -13,9 +15,9 @@ class SocialGraph:
         Creates a bi-directional friendship
         """
         if user_id == friend_id:
-            print("WARNING: You cannot be friends with yourself")
+            return -1
         elif friend_id in self.friendships[user_id] or user_id in self.friendships[friend_id]:
-            print("WARNING: Friendship already exists")
+            return -1
         else:
             self.friendships[user_id].add(friend_id)
             self.friendships[friend_id].add(user_id)
@@ -42,11 +44,22 @@ class SocialGraph:
         self.last_id = 0
         self.users = {}
         self.friendships = {}
-        # !!!! IMPLEMENT ME
+        
+        for i in range(num_users):
+            self.add_user(f'Person {i}')
 
-        # Add users
+        #  Loop over all users
+        for user in range(1, num_users):
+            # Get a num of friends (avg)
+            friendShipAmount = random.randint(0, (avg_friendships * 2))
+            # Loop number of friendships to add to the user
+            for i in range(1, friendShipAmount):
+                newFriend = random.randint(1, num_users)
+                if self.add_friendship(user, newFriend) == -1:
+                    friendShipAmount += 1
+                else:
+                    self.add_friendship(user, newFriend)
 
-        # Create friendships
 
     def get_all_social_paths(self, user_id):
         """
@@ -57,14 +70,31 @@ class SocialGraph:
 
         The key is the friend's ID and the value is the path.
         """
-        visited = {}  # Note that this is a dictionary, not a set
-        # !!!! IMPLEMENT ME
+        visited = {} 
+        # Use a queue to keep track of future lists to check
+        queue = [[user_id]]
+        # Continue looping until everything has been checked
+        while len(queue) > 0:
+            # Remove from the queue be keep the value
+            currentPath = queue.pop(0) 
+            # Grab the most recent item
+            currentVertex = currentPath[-1]
+            # Add an key/value pair if it has been added
+            if currentVertex not in visited:
+                visited[currentVertex] = currentPath
+                # Go through each item, make make path
+                for n in self.friendships[currentVertex]:
+                    pathCopy = currentPath.copy()
+                    pathCopy.append(n)
+                    queue.append(pathCopy)
         return visited
+
+        
 
 
 if __name__ == '__main__':
     sg = SocialGraph()
     sg.populate_graph(10, 2)
-    print(sg.friendships)
+    print("->", sg.friendships)
     connections = sg.get_all_social_paths(1)
-    print(connections)
+    print("----->", connections)

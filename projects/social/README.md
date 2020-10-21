@@ -37,7 +37,13 @@ Now that you have a graph full of users and friendships, you can crawl through t
 {1: {8, 10, 5}, 2: {10, 5, 7}, 3: {4}, 4: {9, 3}, 5: {8, 1, 2}, 6: {10}, 7: {2}, 8: {1, 5}, 9: {4}, 10: {1, 2, 6}}
 >>> connections = sg.get_all_social_paths(1)
 >>> print(connections)
-{1: [1], 8: [1, 8], 10: [1, 10], 5: [1, 5], 2: [1, 10, 2], 6: [1, 10, 6], 7: [1, 10, 2, 7]}
+{1: [1],
+8: [1, 8],
+10: [1, 10],
+5: [1, 5],
+2: [1, 10, 2],
+6: [1, 10, 6],
+7: [1, 10, 2, 7]}
 ```
 Note that in this sample, Users 3, 4 and 9 are not in User 1's extended social network.
 
